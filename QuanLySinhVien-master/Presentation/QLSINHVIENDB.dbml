@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLSINHVIEN4" Class="QLSINHVIENDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=QLSINHVIEN4;Integrated Security=True" SettingsObjectName="Presentation.Properties.Settings" SettingsPropertyName="QLSINHVIEN4ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CHUONGTRINH" Member="CHUONGTRINHs">
+    <Type Name="CHUONGTRINH">
+      <Column Name="MaCT" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenChuongTrinh" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="CHUONGTRINH_LOP" Member="LOPs" ThisKey="MaCT" OtherKey="MaCT" Type="LOP" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MONHOC" Member="MONHOCs">
+    <Type Name="MONHOC">
+      <Column Name="MaMH" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenMonHoc" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="MaKhoa" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="SoTC" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="MONHOC_KETQUA" Member="KETQUAs" ThisKey="MaMH" OtherKey="MaMH" Type="KETQUA" />
+      <Association Name="KHOA_MONHOC" Member="KHOA" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="KHOA" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KETQUA" Member="KETQUAs">
+    <Type Name="KETQUA">
+      <Column Name="MaSV" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaMH" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LanThi" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Diem" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="MONHOC_KETQUA" Member="MONHOC" ThisKey="MaMH" OtherKey="MaMH" Type="MONHOC" IsForeignKey="true" />
+      <Association Name="SINHVIEN_KETQUA" Member="SINHVIEN" ThisKey="MaSV" OtherKey="MaSV" Type="SINHVIEN" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KHOA" Member="KHOAs">
+    <Type Name="KHOA">
+      <Column Name="MaKhoa" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenKhoa" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NamThanhLap" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="KHOA_MONHOC" Member="MONHOCs" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="MONHOC" />
+      <Association Name="KHOA_LOP" Member="LOPs" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="LOP" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KHOAHOC" Member="KHOAHOCs">
+    <Type Name="KHOAHOC">
+      <Column Name="MaKhoaHoc" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NamBatDau" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NamKetThuc" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="KHOAHOC_LOP" Member="LOPs" ThisKey="MaKhoaHoc" OtherKey="MaKhoaHoc" Type="LOP" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LOP" Member="LOPs">
+    <Type Name="LOP">
+      <Column Name="MaLop" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TenLop" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MaKhoaHoc" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaKhoa" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="MaCT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="SoThuTu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="LOP_SINHVIEN" Member="SINHVIENs" ThisKey="MaLop" OtherKey="MaLop" Type="SINHVIEN" />
+      <Association Name="CHUONGTRINH_LOP" Member="CHUONGTRINH" ThisKey="MaCT" OtherKey="MaCT" Type="CHUONGTRINH" IsForeignKey="true" />
+      <Association Name="KHOA_LOP" Member="KHOA" ThisKey="MaKhoa" OtherKey="MaKhoa" Type="KHOA" IsForeignKey="true" />
+      <Association Name="KHOAHOC_LOP" Member="KHOAHOC" ThisKey="MaKhoaHoc" OtherKey="MaKhoaHoc" Type="KHOAHOC" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SINHVIEN" Member="SINHVIENs">
+    <Type Name="SINHVIEN">
+      <Column Name="MaSV" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HoTen" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NgaySinh" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="GioiTinh" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="DiaChi" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MaLop" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Hinh" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Association Name="SINHVIEN_KETQUA" Member="KETQUAs" ThisKey="MaSV" OtherKey="MaSV" Type="KETQUA" />
+      <Association Name="LOP_SINHVIEN" Member="LOP" ThisKey="MaLop" OtherKey="MaLop" Type="LOP" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
